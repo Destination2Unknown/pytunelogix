@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pytunelogix',
-    version='1.1.1',
+    version='1.1.2',
     license='MIT',
     author="Destination2Unknown",
     author_email='destination0b10unknown@gmail.com',
@@ -13,7 +13,7 @@ setup(
     keywords='PID Tuner',
     classifiers= [
         "Development Status :: 3 - Alpha",
-        "Intended Audience :: Resource",
+        "Intended Audience :: Information Technology",
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3",
         "Operating System :: MacOS :: MacOS X",
