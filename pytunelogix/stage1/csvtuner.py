@@ -104,17 +104,17 @@ def main():
             j=df['PV'].idxmax()
             max_peak=df['PV'].max()
             
-        tippingPoint = df['PV'].iloc[j-onesecwindow:j+onesecwindow:1].mean(axis = 0)
-        modelgain.set(round((tippingPoint-round(float(ambient.get()),2))/(StartCV-InitCV),2))
+        peak = df['PV'].iloc[j-onesecwindow:j+onesecwindow:1].mean(axis = 0)
+        modelgain.set(round((peak-round(float(ambient.get()),2))/(StartCV-InitCV),2))
 
         #Time Constant
-        tc_value=0.63*(tippingPoint-round(float(ambient.get()),2))+round(float(ambient.get()),2)
+        tc_value=0.63*(peak-float(ambient.get()))+float(ambient.get())
         tc_upp=tc_value*1.01
         tc_low=tc_value*0.99
 
         #Find Time Constant
         if direction=="Reverse": 
-            z=df[df['PV']<=StartPV-(tippingPoint*0.5)].first_valid_index()        
+            z=df[df['PV']<=StartPV-(peak*0.5)].first_valid_index()        
             for x in range(z,(len(df['PV'])-window)):
                 if(df['PV'].iloc[x-twosecwindow:x+twosecwindow:1].mean(axis = 0)<tc_low):
                     modeltc.set(round(((x-i_start)*deltaT)-float(modeldt.get()),2))
@@ -123,9 +123,9 @@ def main():
                     modeltc.set(-1)
                     
         else:
-            z=df[df['PV']>=StartPV+(tippingPoint*0.5)].first_valid_index()        
+            z=df[df['PV']>=(peak*0.5)].first_valid_index()        
             for x in range(z,(len(df['PV'])-window)):
-                if(df['PV'].iloc[x-twosecwindow:x+twosecwindow:1].mean(axis = 0)>tc_upp):
+                if(df['PV'].iloc[x-twosecwindow:x+twosecwindow:1].mean(axis = 0)>tc_value):
                     modeltc.set(round(((x-i_start)*deltaT)-float(modeldt.get()),2))
                     break
                 else:
