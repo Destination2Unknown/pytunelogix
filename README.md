@@ -12,6 +12,8 @@ pip install pytunelogix
 _________________________________________________________________________________________________________________________
 **Stage 1 - Tune based on a CSV file of a PRC**
 
+_Assumes CV and PV data stored at 100ms intervals._
+
 To use create a launch file:
 
 ```
@@ -27,7 +29,7 @@ if __name__ == '__main__':
 
 
 
-![image](https://user-images.githubusercontent.com/92536730/174451884-a6678b7e-33be-4d9a-8e13-b75a964f9b8b.png)
+![image](https://user-images.githubusercontent.com/92536730/174779654-c4ea6e3f-98e6-478e-98d3-52790d817323.png)
 
 
 
