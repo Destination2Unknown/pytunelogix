@@ -227,9 +227,11 @@ class FOPDTModel(object):
         self.CV= CV
         self.Gain, self.TimeConstant, self.DeadTime, self.Bias = ModelData
         
-    def calc(self,PV,ts):                       
+    def calc(self,PV,ts):                      
         if (ts-self.DeadTime) <= 0:
             um=0
+        elif int(ts-self.DeadTime)>=len(self.CV):
+            um=self.CV[-1]
         else:
             um=self.CV[int(ts-self.DeadTime)]
         dydt = (-(PV-self.Bias) + self.Gain * um)/(self.TimeConstant)
