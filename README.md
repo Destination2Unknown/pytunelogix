@@ -77,3 +77,21 @@ ________________________________________________________________________________
 WIP
 
 ```
+
+_________________________________________________________________________________________________________________________
+**PID Simulator**
+
+
+
+![image](https://user-images.githubusercontent.com/92536730/175026471-dab7f7c1-eef5-47aa-a822-6193e83cd369.png)
+
+
+
+To launch use:
+```
+from pytunelogix.simulate import simulator
+
+if __name__ == '__main__': 
+    simulator.main()
+    
+```
