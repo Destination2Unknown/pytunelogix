@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pytunelogix',
-    version='1.1.4',
+    version='1.1.5',
     license='MIT',
     author="Destination2Unknown",
     author_email='destination0b10unknown@gmail.com',
