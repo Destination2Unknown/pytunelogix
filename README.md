@@ -95,3 +95,44 @@ if __name__ == '__main__':
     simulator.main()
     
 ```
+
+
+_________________________________________________________________________________________________________________________
+**PID Logger**
+
+
+
+![image](https://user-images.githubusercontent.com/92536730/175526532-df3cdb2c-1b42-4380-8b6f-d4f060a3194b.png)
+
+
+
+
+To launch use:
+```
+from pytunelogix.pidlogger import clxlogger
+
+if __name__ == '__main__': 
+    clxlogger.main()
+    
+```
+
+
+_________________________________________________________________________________________________________________________
+**ControlLogix FOPDT Process Simulator (PID Simulator)**
+
+
+
+![image](https://user-images.githubusercontent.com/92536730/175526821-58908595-a959-4f4c-860c-b74479d37300.png)
+
+
+
+
+To launch use:
+```
+from pytunelogix.clxpidsim import clxsim
+
+if __name__ == '__main__': 
+    clxsim.main()
+    
+```
+
