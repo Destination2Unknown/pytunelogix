@@ -16,6 +16,7 @@ def main():
             self.CV = np.zeros(0)
             self.SP = np.zeros(0)
             self.livetrend=0
+            self.scanCount=0
         def storereads(self,CV,SP):
             self.CV=np.append(self.CV,CV)
             self.SP=np.append(self.SP,SP)
@@ -25,6 +26,7 @@ def main():
             self.PV = np.zeros(0)
             self.CV = np.zeros(0)
             self.SP = np.zeros(0)
+            self.scanCount=0
 
     def fopdtsetup():
         process.Gain=float(modelgain.get())
@@ -83,12 +85,13 @@ def main():
             process.CV=gData.CV
             #Store Data when it is read
             gData.storereads(actualcv,actualsp)
+            ts=[gData.scanCount,gData.scanCount+1]
 
             #Get new PV value
             if gData.PV.size>1:
-                pv=process.update(gData.PV[-1])
+                pv=process.update(gData.PV[-1],ts)
             else:
-                pv=process.update(float(ambient.get()))
+                pv=process.update(float(ambient.get()),ts)
             #Add Noise between -0.1 and 0.1
             noise=(random.randint(0,10)/100)-0.05
             #Store PV
@@ -100,6 +103,7 @@ def main():
                 pvtag.configure(state="disabled")            
             else:
                 pvstatus.set(write.Status)
+            gData.scanCount+=1
             
         except Exception as e:
             pvstatus.set('An exception occurred: {}'.format(e))     
