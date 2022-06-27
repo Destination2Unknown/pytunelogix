@@ -10,7 +10,7 @@ pip install pytunelogix
 
 
 _________________________________________________________________________________________________________________________
-**Stage 1 - Tune based on a CSV file of a PRC**
+**Stage 1 - PID Tuner based on a CSV file of a Process Reaction Curve (PRC)**
 
 _Assumes CV and PV data stored at 100ms intervals._
 
@@ -38,7 +38,10 @@ ________________________________________________________________________________
 
 
 
-![image](https://user-images.githubusercontent.com/92536730/174582410-7f11dac4-94ca-46d1-a641-4e0bc3da6fe2.png)
+
+
+https://user-images.githubusercontent.com/92536730/175918442-017d18a0-0bac-434d-aa44-b8cd3aebe231.mp4
+
 
 
 
@@ -54,7 +57,10 @@ ________________________________________________________________________________
 **Stage 3 - Closed loop tune**
 
 
-![image](https://user-images.githubusercontent.com/92536730/174582629-f4673405-de55-44a0-8156-1efb9d2d4cfc.png)
+
+https://user-images.githubusercontent.com/92536730/175920990-3fc2cb66-9d08-4c67-aff7-ff410345f9a5.mp4
+
+
 
 
 ```
@@ -69,7 +75,11 @@ ________________________________________________________________________________
 **Stage 4 - Adaptive tuner**
 
 
-![image](https://user-images.githubusercontent.com/92536730/174582749-9b514d13-463b-42ca-8aec-b48bfe07c386.png)
+
+
+https://user-images.githubusercontent.com/92536730/175921177-86389b8f-2d3c-4dc7-8949-db4cdd782d84.mp4
+
+
 
 
 ```
