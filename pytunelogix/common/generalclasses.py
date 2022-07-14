@@ -117,12 +117,17 @@ class tunefinderFOPDT(object):
 
         #AIMC Kp
         L=max(0.1*self.TimeConstant,0.8*self.DeadTime)
-        self.AIMCKp=1.1*(self.TimeConstant/(abs(self.Gain)*(self.DeadTime+L)))
+        num=self.TimeConstant + 0.5*self.DeadTime
+        den=abs(self.Gain)*(L+0.5*self.DeadTime)
+        self.AIMCKp=num/den
         #AIMC Ki
-        ti=self.TimeConstant/(1.03-0.165*(self.DeadTime/self.TimeConstant))
-        self.AIMCKi =1.1*(self.AIMCKp/self.TimeConstant)
+        ti=self.TimeConstant+0.5*self.DeadTime
+        self.AIMCKi=self.AIMCKp/ti
         #AIMC Kd
-        self.AIMCKd=1.1*(self.DeadTime/2)
+        num=self.TimeConstant*self.DeadTime
+        den=2*self.TimeConstant+self.DeadTime
+        td=num/den
+        self.AIMCKd = td*self.AIMCKp
 
 class PID(object):    
     def __init__(
@@ -169,7 +174,10 @@ class PID(object):
                 self._integral += self.Ki * e
 
             #D term
-            eD=-PV 
+            if action=="Direct":
+                eD=-PV 
+            else:
+                eD=PV            
             self._derivative = self.Kd*(eD - self._last_eD)
             #init D term 
             if self._d_init==0:

@@ -1,15 +1,15 @@
-def main():
-    import tkinter as tk
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import random
-    import threading
-    import time
-    from matplotlib import animation
-    from scipy.integrate import odeint
-    from pylogix import PLC
-    from pytunelogix.common import generalclasses as g
+import tkinter as tk
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+import threading
+import time
+from matplotlib import animation
+from scipy.integrate import odeint
+from pylogix import PLC
+from pytunelogix.common import generalclasses as g
 
+def main():
     class data(object):
         def __init__(self):      
             self.PV = np.zeros(0)
@@ -166,7 +166,7 @@ def main():
 
     #Gui
     root = tk.Tk()
-    root.title('CLX PID Stand Alone Simulator')
+    root.title('CLX PID Process Simulator using a FOPDT Model')
     root.resizable(True, True)
     root.geometry('500x325')
 

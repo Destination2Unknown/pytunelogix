@@ -4,11 +4,11 @@ from scipy.integrate import odeint
 import tkinter as tk
 from pytunelogix.common import generalclasses as g
 
-#Random Noise between -0.5 and 0.5, same set used for each run. Created once at runtime.
+#Random Noise between -0.25 and 0.25, same set used for each run. Created once at runtime.
 minsize=600
 maxsize=7200
-noise= np.random.rand(minsize)
-noise-=0.5
+noise= np.random.rand(minsize)/2
+noise-=0.25
 
 def main():  
     def refresh():
@@ -17,12 +17,12 @@ def main():
         ikp,iki,ikd = float(tKp.get()),float(tKi.get()),float(tKd.get())
             
         #Find the size of the range needed
-        if (ideadtime+itau)*4 < minsize:
+        if (ideadtime+itau)*6 < minsize:
          rangesize = minsize
-        elif (ideadtime+itau)*4 >maxsize:
+        elif (ideadtime+itau)*6 >maxsize:
          rangesize = maxsize
         else:
-         rangesize = int((ideadtime+itau)*4)
+         rangesize = int((ideadtime+itau)*6)
 
         #setup time intervals
         t = np.arange(start=0, stop=rangesize, step=1)
@@ -61,7 +61,7 @@ def main():
         for i in t:        
             if i<len(t)-1:            
                 if i < startofstep:
-                    SP[i] = 0
+                    SP[i] = ibias
                 elif i< rangesize*0.6:
                     SP[i]= 60 + ibias
                 else:
@@ -116,17 +116,19 @@ def main():
     #Labels
     tk.Label(root, text=" ").grid(row=0,column=0)
     tk.Label(root, text="FOPDT").grid(row=0,column=1)
-    tk.Label(root, text="Model Gain").grid(row=1)
-    tk.Label(root, text="Model TimeConstant (s) ").grid(row=2)
-    tk.Label(root, text="Model DeadTime (s) ").grid(row=3)
-    tk.Label(root, text="                ").grid(row=0,column=2)
-    tk.Label(root, text="                ").grid(row=1,column=2)
-    tk.Label(root, text="                ").grid(row=2,column=2)
-    tk.Label(root, text="                ").grid(row=3,column=2)
+    tk.Label(root, text="Model Gain: ").grid(row=1,sticky="E")
+    tk.Label(root, text="TimeConstant: ").grid(row=2,sticky="E")
+    tk.Label(root, text="DeadTime: ").grid(row=3,sticky="E")
+    tk.Label(root, text="                ").grid(row=0,column=2,sticky="W")
+    tk.Label(root, text="                ").grid(row=1,column=2,sticky="W")
+    tk.Label(root, text="sec             ").grid(row=2,column=2,sticky="W")
+    tk.Label(root, text="sec             ").grid(row=3,column=2,sticky="W")
     tk.Label(root, text="PID Gains").grid(row=0,column=4)
-    tk.Label(root, text="Kp").grid(row=1,column=3)
-    tk.Label(root, text="Ki").grid(row=2,column=3)
-    tk.Label(root, text="Kd").grid(row=3,column=3)
+    tk.Label(root, text="Kp:").grid(row=1,column=3)
+    tk.Label(root, text="Ki:").grid(row=2,column=3)
+    tk.Label(root, text="Kd:").grid(row=3,column=3)
+    tk.Label(root, text="1/sec").grid(row=2,column=5,sticky="W")
+    tk.Label(root, text="sec").grid(row=3,column=5,sticky="W")
 
     tK = tk.Entry(root,width=8)
     ttau = tk.Entry(root,width=8)

@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='pytunelogix',
-    version='1.1.11',
+    version='1.1.12',
     license='MIT',
     author="Destination2Unknown",
     author_email='destination0b10unknown@gmail.com',
-    description='PID Tuner',
-    long_description='PID Tuner with multiple tuning methods',
+    description='PID tuner, logger and simulator',
+    long_description='PID tuner, logger and simulator, with multiple tuning methods',
     packages=find_packages(),
     url='https://github.com/Destination2Unknown/pytunelogix',
     keywords='PID Tuner',
