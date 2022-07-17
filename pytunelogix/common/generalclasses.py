@@ -130,14 +130,7 @@ class tunefinderFOPDT(object):
         self.AIMCKd = td*self.AIMCKp
 
 class PID(object):    
-    def __init__(
-        self,
-        Kp=1.0,
-        Ki=0.1,
-        Kd=0.01,
-        setpoint=50,
-        output_limits=(0, 100),   
-    ):
+    def __init__(self,Kp=1.0,Ki=0.1,Kd=0.01,setpoint=50,output_limits=(0, 100)):
         self.Kp, self.Ki, self.Kd = Kp, Ki, Kd
         self.setpoint = setpoint
         self._min_output, self._max_output = 0, 100
@@ -160,7 +153,7 @@ class PID(object):
             return lower
         return value
 
-    def __call__(self,PV=0,SP=0,action="Direct"):
+    def __call__(self,PV=0,SP=0,action="Direct",dFilter=1):
             #PID calculations            
             #P term
             if action=="Direct":
@@ -172,13 +165,18 @@ class PID(object):
             #I Term
             if self._lastCV<100 and self._lastCV >0:        
                 self._integral += self.Ki * e
+            #Allow I Term to change when Kp is set to Zero
+            if self.Kp==0 and self._lastCV==100 and self.Ki * e<0:
+                self._integral += self.Ki * e
+            if self.Kp==0 and self._lastCV==0 and self.Ki * e>0:
+                self._integral += self.Ki * e
 
             #D term
             if action=="Direct":
                 eD=-PV 
             else:
                 eD=PV            
-            self._derivative = self.Kd*(eD - self._last_eD)
+            self._derivative = dFilter*self.Kd*(eD - self._last_eD)
             #init D term 
             if self._d_init==0:
                 self._derivative=0
@@ -226,9 +224,10 @@ class PID(object):
         self._integral = 0
         self._derivative = 0
         self._integral = self._clamp(self._integral, self.output_limits)
-        self._last_eD=0
-        self._lastCV=0
-        self._last_eD =0
+        self._last_eD = 0
+        self._lastCV = 0
+        self._last_eD = 0
+        self._d_init = 0
 
 class FOPDTModel(object):   
     def __init__(self, CV, ModelData):                

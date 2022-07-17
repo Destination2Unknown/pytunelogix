@@ -45,6 +45,7 @@ def main():
         button_start["state"] = "disabled"
         button_stop["state"] = "normal"
         button_trend["state"] = "normal"
+        button_save["state"] = "normal"
         ip.configure(state="disabled")
         slot.configure(state="disabled")
         modelgain.configure(state="disabled")
@@ -163,7 +164,13 @@ def main():
             anim = animation.FuncAnimation(fig, animate, init_func=init, frames=100, interval=1000) #, blit=True) # cant use blit with dynamic x-axis
 
         plt.show()
-
+    
+    def save():            
+        if len(gData.PV):
+            now=time.strftime("%Y%m%d_%H%M%S")
+            np.savetxt("SimData_" + now + ".csv", np.transpose((gData.PV,gData.CV,gData.SP)), header="PV;CV;SP", comments='', fmt='%1.3f', delimiter = ";")
+        else:
+            button_save["state"] = "disabled"
     #Gui
     root = tk.Tk()
     root.title('CLX PID Process Simulator using a FOPDT Model')
@@ -226,10 +233,10 @@ def main():
 
     #Column 3
     #Status
-    tk.Label(root, text="Last Error:").grid(row=0,column=3,padx=10,columnspan=2 ,pady=2,sticky="NESW")
-    tk.Label(root, textvariable=spstatus).grid(row=1,column=3,padx=10,columnspan=2 ,pady=2,sticky="NESW")
-    tk.Label(root, textvariable=pvstatus).grid(row=2,column=3,padx=10,columnspan=2 ,pady=2,sticky="NESW")
-    tk.Label(root, textvariable=cvstatus).grid(row=3,column=3,padx=10,columnspan=2 ,pady=2,sticky="NESW")
+    tk.Label(root, text="Last Error:").grid(row=0,column=3,padx=10,columnspan=3 ,pady=2,sticky="W")
+    tk.Label(root, textvariable=spstatus).grid(row=1,column=3,padx=10,columnspan=3 ,pady=2,sticky="W")
+    tk.Label(root, textvariable=pvstatus).grid(row=2,column=3,padx=10,columnspan=3 ,pady=2,sticky="W")
+    tk.Label(root, textvariable=cvstatus).grid(row=3,column=3,padx=10,columnspan=3 ,pady=2,sticky="W")
 
     #Default Values
     sptag.insert(10, "SP")
@@ -250,11 +257,16 @@ def main():
     #Stop Button Placement
     button_stop = tk.Button(root, text="Stop Simulator", command=lambda :[stop()])
     button_stop.grid(row=4,column=1,columnspan=1,padx=10 ,pady=2,sticky="NESW")
+    button_stop["state"] = "disabled"
 
     #Trend Button Placement
     button_trend = tk.Button(root, text="Show Trend", command=lambda :[livetrend()])
     button_trend.grid(row=5,column=0,columnspan=2,padx=10 ,pady=2,sticky="NESW")
     button_trend["state"] = "disabled"
+
+    button_save = tk.Button(root, text="Save as CSV", command=lambda :[save()])
+    button_save.grid(row=11,column=2,columnspan=1,padx=10 ,pady=2,sticky="NESW")
+    button_save["state"] = "disabled"
 
     #default setup 
     params=0,0

@@ -1,4 +1,9 @@
+from pytunelogix.pidlogger import clxlogger
 from pytunelogix.stage1 import csvtuner
+from pytunelogix.clxpidsim import clxsim
+from pytunelogix.simulate import simulator
 
-if __name__ == '__main__':
-    csvtuner.main()
+#clxlogger.main()
+csvtuner.main()
+#clxsim.main()
+#simulator.main()
