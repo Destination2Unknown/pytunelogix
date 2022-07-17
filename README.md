@@ -8,28 +8,65 @@ pip install pytunelogix
 ```
 
 
+PID tuning in 4 Steps:
+```
+A-> Record PRC using Logger
+B-> Tune using PID Tuner
+C-> Refine tune using PID Simulator
+D-> Test tune with FOPDT Simulator for Logix PLC
+```
+
+
+To use create a launch file:
+
+```
+examplelaunch.pyw #use pyw for no console
+```
+
+_________________________________________________________________________________________________________________________
+**PID Logger**
+
+
+
+![image](https://user-images.githubusercontent.com/92536730/175526532-df3cdb2c-1b42-4380-8b6f-d4f060a3194b.png)
+
+
+
+
+To launch use:
+```
+from pytunelogix.pidlogger import clxlogger
+
+clxlogger.main()
+    
+```
+
 
 _________________________________________________________________________________________________________________________
 **Stage 1 - PID Tuner based on a CSV file of a Process Reaction Curve (PRC)**
 
 _Assumes CV and PV data stored at 100ms intervals._
 
-To use create a launch file:
 
-```
-examplelaunch.pyw
-```
 
+To launch use:
 ```
 from pytunelogix.stage1 import csvtuner
 
-if __name__ == '__main__':
-    csvtuner.main()
+csvtuner.main()
+
 ```
 
+Direct Acting:
+
+![U_Tune](https://user-images.githubusercontent.com/92536730/179394923-8757a7b9-d1d6-482b-8bd3-8b4769937206.PNG)
 
 
-![image](https://user-images.githubusercontent.com/92536730/174779654-c4ea6e3f-98e6-478e-98d3-52790d817323.png)
+
+Reverse Acting:
+
+![U_TuneR](https://user-images.githubusercontent.com/92536730/179394927-d35f3e2f-943c-41cc-bfff-cfee028a821f.PNG)
+
 
 
 
@@ -92,8 +129,15 @@ ________________________________________________________________________________
 **PID Simulator**
 
 
+Direct Acting:
 
-![image](https://user-images.githubusercontent.com/92536730/175026471-dab7f7c1-eef5-47aa-a822-6193e83cd369.png)
+![U_Sim](https://user-images.githubusercontent.com/92536730/179394964-37d23d76-ff62-4d1d-8705-8bf2dfbdf97f.PNG)
+
+
+
+Reverse Acting:
+
+![U_SimR](https://user-images.githubusercontent.com/92536730/179394968-8e32030a-534e-47a3-b803-e11490d07746.PNG)
 
 
 
@@ -101,28 +145,7 @@ To launch use:
 ```
 from pytunelogix.simulate import simulator
 
-if __name__ == '__main__': 
-    simulator.main()
-    
-```
-
-
-_________________________________________________________________________________________________________________________
-**PID Logger**
-
-
-
-![image](https://user-images.githubusercontent.com/92536730/175526532-df3cdb2c-1b42-4380-8b6f-d4f060a3194b.png)
-
-
-
-
-To launch use:
-```
-from pytunelogix.pidlogger import clxlogger
-
-if __name__ == '__main__': 
-    clxlogger.main()
+simulator.main()
     
 ```
 
@@ -130,9 +153,16 @@ if __name__ == '__main__':
 _________________________________________________________________________________________________________________________
 **ControlLogix FOPDT Process Simulator (PID Simulator)**
 
+Direct Acting:
+
+![C](https://user-images.githubusercontent.com/92536730/179394941-54fdb56b-a777-4f8d-bde2-d7c2dd7c5a5f.PNG)
 
 
-![image](https://user-images.githubusercontent.com/92536730/175526821-58908595-a959-4f4c-860c-b74479d37300.png)
+
+Reverse Acting:
+
+
+![C_R](https://user-images.githubusercontent.com/92536730/179394946-eb06bedd-3006-422f-91c2-66463b97bd0c.PNG)
 
 
 
@@ -141,8 +171,7 @@ To launch use:
 ```
 from pytunelogix.clxpidsim import clxsim
 
-if __name__ == '__main__': 
-    clxsim.main()
+clxsim.main()
     
 ```
 
