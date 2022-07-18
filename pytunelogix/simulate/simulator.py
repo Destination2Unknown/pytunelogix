@@ -13,8 +13,24 @@ noise-=0.25
 def main():  
     def refresh():
         #get values from tkinter 
+        if str(ind_button['state']) =='disabled' and str(sec_button['state'])=='disabled':
+            calcKp.set(tKp.get())
+            calcKi.set(tKi.get())
+            calcKd.set(tKd.get())
+        elif str(ind_button['state']) =='disabled' and str(sec_button['state'])=='normal': 
+            calcKp.set(tKp.get())
+            calcKi.set(float(tKi.get())/60)
+            calcKd.set(float(tKd.get())*60)	
+        elif str(ind_button['state']) =='normal' and str(sec_button['state'])=='disabled':
+            calcKp.set(tKp.get())
+            calcKi.set(float(tKp.get())/(float(tKi.get())))
+            calcKd.set(float(tKp.get())*float(tKd.get()))
+        elif str(ind_button['state']) =='normal' and str(sec_button['state'])=='normal':              
+            calcKp.set(tKp.get())
+            calcKi.set(float(tKp.get())/(float(tKi.get())*60))
+            calcKd.set(float(tKp.get())*float(tKd.get())*60)
         igain,itau,ideadtime=float(tK.get()),float(ttau.get()),float(tdt.get())
-        ikp,iki,ikd = float(tKp.get()),float(tKi.get()),float(tKd.get())
+        ikp,iki,ikd = float(calcKp.get()),float(calcKi.get()),float(calcKd.get())
             
         #Find the size of the range needed
         if (ideadtime+itau)*7 < minsize:
@@ -110,7 +126,7 @@ def main():
         plt.plot(t,PV,color="red",linewidth=2,label='PV')    
         plt.ylabel('EU')    
         plt.suptitle("ITAE: %s" % round(itae/len(t),2))        
-        plt.title("Kp:%s   Ki:%s  Kd:%s" % (ikp, iki, ikd),fontsize=10)
+        plt.title(tUnitP.get()+": "+tKp.get() + "      " + tUnitI.get()+ ": " + tKi.get()+"      " + tUnitD.get() +": "   + tKd.get() ,fontsize=10)
         plt.legend(loc='best')
 
         plt.subplot(2,1,2)
@@ -121,30 +137,138 @@ def main():
         plt.legend(loc='best')
         plt.show(block=False)
 
+    def convert(selector):   
+        if selector == "S":
+            sec_button['state']='disabled'
+            min_button['state']='normal'
+            if str(dep_button['state']) =='normal' and str(ind_button['state'])=='disabled':
+                tUnitP.set("Kp")
+                tUnitI.set("Ki (1/s)")
+                tUnitD.set("Kd (s)")
+                thisp=str(round(float(tKp.get()),6))
+                thisi=str(round(float(tKi.get())/60,6))
+                thisd=str(round(float(tKd.get())*60,6))
+                tKp.delete(0,'end')
+                tKi.delete(0,'end')
+                tKd.delete(0,'end')
+                tKp.insert(0,thisp)
+                tKi.insert(0,thisi)
+                tKd.insert(0,thisd)
+
+            elif str(dep_button['state']) =='disabled' and str(ind_button['state'])=='normal':
+                tUnitP.set("Kc")
+                tUnitI.set("Ti (sec/repeat)")
+                tUnitD.set("Td (sec)")
+                thisp=str(round(float(tKp.get()),6))
+                thisi=str(round(float(tKi.get())*60,6))
+                thisd=str(round(float(tKd.get())*60,6))
+                tKp.delete(0,'end')
+                tKi.delete(0,'end')
+                tKd.delete(0,'end')
+                tKp.insert(0,thisp)
+                tKi.insert(0,thisi)
+                tKd.insert(0,thisd)
+
+        elif selector == "M":
+            sec_button['state']='normal'
+            min_button['state']='disabled'
+            if str(dep_button['state']) =='normal' and str(ind_button['state'])=='disabled':
+                tUnitP.set("Kp")
+                tUnitI.set("Ki (1/min)")
+                tUnitD.set("Kd (min)")
+                thisp=str(round(float(tKp.get()),6))
+                thisi=str(round(float(tKi.get())*60,6))
+                thisd=str(round(float(tKd.get())/60,6))
+                tKp.delete(0,'end')
+                tKi.delete(0,'end')
+                tKd.delete(0,'end')
+                tKp.insert(0,thisp)
+                tKi.insert(0,thisi)
+                tKd.insert(0,thisd)
+
+            elif str(dep_button['state']) =='disabled' and str(ind_button['state'])=='normal':
+                tUnitP.set("Kc")
+                tUnitI.set("Ti (min/repeat)")
+                tUnitD.set("Td (min)")
+                thisp=str(round(float(tKp.get()),6))
+                thisi=str(round(float(tKi.get())/60,6))
+                thisd=str(round(float(tKd.get())/60,6))
+                tKp.delete(0,'end')
+                tKi.delete(0,'end')
+                tKd.delete(0,'end')
+                tKp.insert(0,thisp)
+                tKi.insert(0,thisi)
+                tKd.insert(0,thisd)
+
+        elif selector == "D":
+            ind_button['state']='normal'
+            dep_button['state']='disabled'
+            if str(sec_button['state']) =='disabled' and str(min_button['state'])=='normal':              
+                tUnitP.set("Kc")
+                tUnitI.set("Ti (sec/repeat)")
+                tUnitD.set("Td (sec)")
+                thisp=str(round(float(tKp.get()),6))
+                thisi=str(round(float(tKp.get())/float(tKi.get()),6))
+                thisd=str(round(float(tKd.get())/float(tKp.get()),6))
+                tKp.delete(0,'end')
+                tKi.delete(0,'end')
+                tKd.delete(0,'end')
+                tKp.insert(0,thisp)
+                tKi.insert(0,thisi)
+                tKd.insert(0,thisd)
+
+            elif str(sec_button['state']) =='normal' and str(min_button['state'])=='disabled':              
+                tUnitP.set("Kc")
+                tUnitI.set("Ti (min/repeat)")
+                tUnitD.set("Td (min)")
+                thisp=str(round(float(tKp.get()),6))
+                thisi=str(round(float(tKp.get())/(float(tKi.get())),6))
+                thisd=str(round(float(tKd.get())/float(tKp.get()),6))
+                tKp.delete(0,'end')
+                tKi.delete(0,'end')
+                tKd.delete(0,'end')
+                tKp.insert(0,thisp)
+                tKi.insert(0,thisi)
+                tKd.insert(0,thisd)
+
+        elif selector == "I":
+            ind_button['state']='disabled'
+            dep_button['state']='normal'
+            if str(sec_button['state']) =='disabled' and str(min_button['state'])=='normal':                    
+                tUnitP.set("Kp")
+                tUnitI.set("Ki (1/s)")
+                tUnitD.set("Kd (s)")
+                thisp=str(round(float(tKp.get()),6))
+                thisi=str(round(float(tKp.get())/float(tKi.get()),6))
+                thisd=str(round(float(tKd.get())*float(tKp.get()),6))
+                tKp.delete(0,'end')
+                tKi.delete(0,'end')
+                tKd.delete(0,'end')
+                tKp.insert(0,thisp)
+                tKi.insert(0,thisi)
+                tKd.insert(0,thisd)
+
+            elif str(sec_button['state']) =='normal' and str(min_button['state'])=='disabled': 
+                tUnitP.set("Kp")
+                tUnitI.set("Ki (1/min)")
+                tUnitD.set("Kd (min)")
+                thisp=str(round(float(tKp.get()),6))
+                thisi=str(round(float(tKp.get())/float(tKi.get()),6))
+                thisd=str(round(float(tKd.get())*float(tKp.get()),6))
+                tKp.delete(0,'end')
+                tKi.delete(0,'end')
+                tKd.delete(0,'end')
+                tKp.insert(0,thisp)
+                tKi.insert(0,thisi)
+                tKd.insert(0,thisd)
+        
     #Gui
     root = tk.Tk()
     root.title('PID Simulator (Independent Form) with a FOPDT Model')
     root.resizable(True, True)
-    root.geometry('475x160')
+    root.geometry('500x180')
 
     #Labels
-    tk.Label(root, text=" ").grid(row=0,column=0)
-    tk.Label(root, text="FOPDT").grid(row=0,column=1)
-    tk.Label(root, text="Model Gain: ").grid(row=1,sticky="E")
-    tk.Label(root, text="TimeConstant: ").grid(row=2,sticky="E")
-    tk.Label(root, text="DeadTime: ").grid(row=3,sticky="E")
-    tk.Label(root, text="Ambient: ").grid(row=4,sticky="E")
-    tk.Label(root, text="                ").grid(row=0,column=2,sticky="W")
-    tk.Label(root, text="                ").grid(row=1,column=2,sticky="W")
-    tk.Label(root, text="sec             ").grid(row=2,column=2,sticky="W")
-    tk.Label(root, text="sec             ").grid(row=3,column=2,sticky="W")
-    tk.Label(root, text="PID Gains").grid(row=0,column=4)
-    tk.Label(root, text="Kp:").grid(row=1,column=3)
-    tk.Label(root, text="Ki:").grid(row=2,column=3)
-    tk.Label(root, text="Kd:").grid(row=3,column=3)
-    tk.Label(root, text="1/sec").grid(row=2,column=5,sticky="W")
-    tk.Label(root, text="sec").grid(row=3,column=5,sticky="W")
-
     tK = tk.Entry(root,width=8)
     ttau = tk.Entry(root,width=8)
     tdt= tk.Entry(root,width=8)
@@ -155,17 +279,43 @@ def main():
     radioFilter = tk.StringVar()
     radioDirection = tk.StringVar()
     itae_text = tk.StringVar()
+    tUnitP = tk.StringVar()
+    tUnitI = tk.StringVar()
+    tUnitD = tk.StringVar()
+    tUnits = tk.StringVar()
+    calcKp = tk.StringVar()
+    calcKi = tk.StringVar()
+    calcKd = tk.StringVar()
 
-    tK.insert(10, "2.25")
-    ttau.insert(10, "60.5")
-    tdt.insert(10, "9.99")
-    tKp.insert(10, "1.1")
-    tKi.insert(10, "0.1")
-    tKd.insert(10, "0.09")
-    tAmb.insert(10, "13.5")
+    tk.Label(root, text=" ").grid(row=0,column=0)
+    tk.Label(root, text="FOPDT").grid(row=0,column=1)
+    tk.Label(root, text="Model Gain: ").grid(row=1,sticky="E")
+    tk.Label(root, text="TimeConstant: ").grid(row=2,sticky="E")
+    tk.Label(root, text="DeadTime: ").grid(row=3,sticky="E")
+    tk.Label(root, text="Ambient: ").grid(row=4,sticky="E")
+    tk.Label(root, text="                 ").grid(row=0,column=2,sticky="W")
+    tk.Label(root, text="                 ").grid(row=0,column=3,sticky="W")
+    tk.Label(root, text="PID Gains").grid(row=0,column=4)
+    tk.Label(root, textvariable=tUnitP).grid(row=1,column=2,columnspan=2,sticky="E")
+    tk.Label(root, textvariable=tUnitI).grid(row=2,column=2,columnspan=2,sticky="E")
+    tk.Label(root, textvariable=tUnitD).grid(row=3,column=2,columnspan=2,sticky="E")
+
+    tK.insert(0, "2.25")
+    ttau.insert(0, "60.5")
+    tdt.insert(0, "9.99")
+    tKp.insert(0, "3")
+    tKi.insert(0, "0.001")
+    tKd.insert(0, "3")
+    calcKp.set("3")
+    calcKi.set("0.001")
+    calcKd.set("3")
+    tAmb.insert(0, "13.5")
     radioFilter.set("Filter")
     radioDirection.set("Direct")
     itae_text.set("...")
+    tUnitP.set("Kp")
+    tUnitI.set("Ki (1/s)")
+    tUnitD.set("Kd (s)")
 
     tK.grid(row=1, column=1)
     ttau.grid(row=2, column=1)
@@ -176,14 +326,28 @@ def main():
     tAmb.grid(row=4, column=1)
 
     button_refresh = tk.Button(root, text="Refresh", command=refresh)
-    button_refresh.grid(row=5,column=0)
+    button_refresh.grid(row=5,column=1)
     tk.Label(root, text="itae:").grid(row=4,column=3)
     tk.Label(root, textvariable=itae_text).grid(row=4,column=4,padx=5,sticky="NESW")
     
-    tk.Radiobutton(root, text = "Filter", variable=radioFilter, value = "Filter").grid(row=3,column=7, sticky="NESW")
-    tk.Radiobutton(root, text = "UnFiltered", variable=radioFilter, value = "UnFilter").grid(row=3,column=8,columnspan=2, sticky="NESW")
-    tk.Radiobutton(root, text = "Direct", variable=radioDirection, value = "Direct").grid(row=4,column=7, sticky="NESW")
-    tk.Radiobutton(root, text = "Reverse", variable=radioDirection, value = "Reverse").grid(row=4,column=8,columnspan=2, sticky="NESW")
+    tk.Radiobutton(root, text = "Filter", variable=radioFilter, value = "Filter").grid(row=3,column=7,padx=5,pady=0, sticky="NESW")
+    tk.Radiobutton(root, text = "UnFiltered", variable=radioFilter, value = "UnFilter").grid(row=3,column=8,padx=5,pady=0,columnspan=2, sticky="NESW")
+    tk.Radiobutton(root, text = "Direct", variable=radioDirection, value = "Direct").grid(row=4,column=7,padx=5,pady=0, sticky="NESW")
+    tk.Radiobutton(root, text = "Reverse", variable=radioDirection, value = "Reverse").grid(row=4,column=8,padx=5,pady=0,columnspan=2, sticky="NESW")
+
+    ind_button = tk.Button(root,text='Independant',command=lambda :[convert("I")])
+    ind_button.grid(row=1,column=7,padx=5,pady=0,sticky="NESW")
+    ind_button['state']='disabled'
+
+    dep_button = tk.Button(root,text='Dependant',command=lambda :[convert("D")])
+    dep_button.grid(row=1,column=8,padx=5,pady=0,sticky="NESW")
+
+    sec_button = tk.Button(root,text='Seconds',command=lambda :[convert("S")])
+    sec_button.grid(row=2,column=7,padx=5,pady=0,sticky="NESW")
+    sec_button['state']='disabled'
+
+    min_button = tk.Button(root,text='Minutes',command=lambda :[convert("M")])
+    min_button.grid(row=2,column=8,padx=5,pady=0,sticky="NESW")
 
     root.mainloop()
  

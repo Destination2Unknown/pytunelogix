@@ -89,7 +89,11 @@ class tunefinderFOPDT(object):
         self.AIMCKd=(self.DeadTime/2)/60
 
     def calcFullFat(self,ModelData):
-        self.Gain, self.TimeConstant, self.DeadTime = ModelData 
+        self.Gain, self.TimeConstant, self.DeadTime = ModelData
+        if (self.TimeConstant<=0):
+            self.TimeConstant=1
+        if (self.DeadTime<=0):
+            self.DeadTime=1  
         #CHRKp
         num=0.6*self.TimeConstant 
         den=abs(self.Gain)*self.DeadTime
