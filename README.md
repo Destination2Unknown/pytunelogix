@@ -131,13 +131,17 @@ ________________________________________________________________________________
 
 Direct Acting:
 
-![U_Sim](https://user-images.githubusercontent.com/92536730/179394964-37d23d76-ff62-4d1d-8705-8bf2dfbdf97f.PNG)
+
+![pidDirect_DEP](https://user-images.githubusercontent.com/92536730/179607882-859fc354-03c9-4c69-ab1f-6a47c6e74943.PNG)
+
 
 
 
 Reverse Acting:
 
-![U_SimR](https://user-images.githubusercontent.com/92536730/179394968-8e32030a-534e-47a3-b803-e11490d07746.PNG)
+
+![pidReverse_DEP](https://user-images.githubusercontent.com/92536730/179607844-f2728155-9c8a-43e7-8710-8e27b0bacc47.PNG)
+
 
 
 
@@ -152,6 +156,14 @@ simulator.main()
 
 _________________________________________________________________________________________________________________________
 **ControlLogix FOPDT Process Simulator (PID Simulator)**
+
+
+Simulates a Process:
+
+
+![UCLX_Sim](https://user-images.githubusercontent.com/92536730/179607984-aaea90ac-85dc-491c-8842-8aad5e23370a.png)
+
+
 
 Direct Acting:
 
