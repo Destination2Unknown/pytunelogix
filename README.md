@@ -1,6 +1,13 @@
 # pytunelogix
 **Python PID Tuner for ControlLogix**
 
+![PyPI](https://img.shields.io/pypi/v/pytunelogix?label=pypi%20package)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/pytunelogix)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pytunelogix)
+![GitHub repo size](https://img.shields.io/github/repo-size/destination2unknown/pytunelogix)
+![PyPI - License](https://img.shields.io/pypi/l/pytunelogix)
+
+
 To install use:
 
 ```
