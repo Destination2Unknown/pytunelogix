@@ -84,6 +84,12 @@ def main():
         else:
             dFilter=1
         direction=radioDirection.get()
+        
+        #Process Variable Tracking
+        if radioPvT.get()=='PvT':
+            PvT=1
+        else:
+            PvT=0
 
         #PID Instantiation
         pid = g.PID(ikp, iki, ikd, SP[0])
@@ -99,7 +105,7 @@ def main():
         #Loop through to find PID output and Process value
         for i in t:        
             if i<len(t)-1:            
-                if i < startofstep:
+                if i < startofstep-1:
                     SP[i] = ibias
                 elif i< rangesize*0.6:
                     if direction=="Direct":
@@ -111,8 +117,8 @@ def main():
                         SP[i]= 40 + ibias
                     else:
                         SP[i]= ibias - 40
-                #Find current controller output
-                CV[i]=pid(PV[i], SP[i],direction,dFilter)               
+                #Find current controller output                
+                CV[i]=pid(PV[i], SP[i],direction,dFilter,0 if (i < startofstep and PvT==0) else 1)
                 ts = [t[i],t[i+1]]
                 #Send step data
                 plant.CV=CV
@@ -279,7 +285,7 @@ def main():
         
     #Gui
     root = tk.Tk()
-    root.title('PID Simulator (Independent Form) with a FOPDT Model')
+    root.title('PID Simulator with a FOPDT Process Model')
     root.resizable(True, True)
     root.geometry('500x180')
 
@@ -293,6 +299,7 @@ def main():
     tAmb = tk.Entry(root,width=8)
     radioFilter = tk.StringVar()
     radioDirection = tk.StringVar()
+    radioPvT = tk.StringVar()
     itae_text = tk.StringVar()
     tUnitP = tk.StringVar()
     tUnitI = tk.StringVar()
@@ -322,11 +329,12 @@ def main():
     tKi.insert(0, "0.001")
     tKd.insert(0, "3")
     calcKp.set("3")
-    calcKi.set("0.001")
+    calcKi.set("0.1")
     calcKd.set("3")
     tAmb.insert(0, "13.5")
     radioFilter.set("Filter")
     radioDirection.set("Direct")
+    radioPvT.set("PvT")
     itae_text.set("...")
     tUnitP.set("Kp")
     tUnitI.set("Ki (1/s)")
@@ -349,6 +357,8 @@ def main():
     tk.Radiobutton(root, text = "UnFiltered", variable=radioFilter, value = "UnFilter").grid(row=3,column=8,padx=5,pady=0,columnspan=2, sticky="NESW")
     tk.Radiobutton(root, text = "Direct", variable=radioDirection, value = "Direct").grid(row=4,column=7,padx=5,pady=0, sticky="NESW")
     tk.Radiobutton(root, text = "Reverse", variable=radioDirection, value = "Reverse").grid(row=4,column=8,padx=5,pady=0,columnspan=2, sticky="NESW")
+    tk.Radiobutton(root, text = "PV Tracking", variable=radioPvT, value = "PvT").grid(row=5,column=7,padx=5,pady=0, sticky="NESW")
+    tk.Radiobutton(root, text = "No PvT", variable=radioPvT, value = "NoPvT").grid(row=5,column=8,padx=5,pady=0,columnspan=2, sticky="NESW")
 
     ind_button = tk.Button(root,text='Independant',command=lambda :[convert("I")])
     ind_button.grid(row=1,column=7,padx=5,pady=0,sticky="NESW")

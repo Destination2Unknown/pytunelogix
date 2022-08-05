@@ -164,9 +164,9 @@ def main():
             #plot 
             plt.figure()
             plt.xlim(0,df['PV'].count()*0.11)
-            plt.plot(plotpv, color="blue", linewidth=3, label='Actual Data')
+            plt.plot(plotpv, color="blue", linewidth=3, label='PV')
             plt.plot(t1+(i_start/10+(float(modeldt.get()))),((StartCV-InitCV)*y1)+round(float(ambient.get()),2),color="red",linewidth=3,label='Model')
-            plt.plot(plotcv, color="green", linewidth=3, label='Step')
+            plt.plot(plotcv, color="green", linewidth=3, label='CV')
             plt.hlines(round(float(ambient.get()),2), 0, i_start/10+float(modeldt.get()),colors='red', linestyles='solid',linewidth=3,label='')
             plt.ylabel('Engineering Units')
             plt.xlabel('Seconds')
@@ -230,8 +230,8 @@ def main():
 
             #Plot
             plt.figure()
-            plt.plot(actualPV,color="blue",linewidth=3,label='Actual Data')
-            plt.plot(actualCV,color="green",linewidth=3,label='Step')
+            plt.plot(actualPV,color="blue",linewidth=3,label='PV')
+            plt.plot(actualCV,color="green",linewidth=3,label='CV')
             plt.plot(ymodel,color="red",linewidth=3,label='Model')
             plt.xlabel('Seconds')
             plt.ylabel('Engineering Units')

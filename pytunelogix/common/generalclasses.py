@@ -172,7 +172,7 @@ class PID(object):
             return lower
         return value
 
-    def __call__(self,PV=0,SP=0,action="Direct",dFilter=1):
+    def __call__(self,PV=0,SP=0,action="Direct",dFilter=1,pvt=1):
             #PID calculations            
             #P term
             if action=="Direct":
@@ -200,6 +200,10 @@ class PID(object):
             if self._d_init==0:
                 self._derivative=0
                 self._d_init=1
+            
+            #pv tracking
+            if pvt==0:
+                self._integral=-(self.Kp*e)+0.00001
                 
             #Controller Output
             CV = self._proportional + self._integral + self._derivative
