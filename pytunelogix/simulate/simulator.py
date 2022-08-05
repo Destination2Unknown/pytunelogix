@@ -326,7 +326,7 @@ def main():
     ttau.insert(0, "60.5")
     tdt.insert(0, "9.99")
     tKp.insert(0, "3")
-    tKi.insert(0, "0.001")
+    tKi.insert(0, "0.1")
     tKd.insert(0, "3")
     calcKp.set("3")
     calcKi.set("0.1")
