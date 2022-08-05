@@ -7,6 +7,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/destination2unknown/pytunelogix)
 ![PyPI - License](https://img.shields.io/pypi/l/pytunelogix)
 
+Windows Exe (no install required) ->https://github.com/Destination2Unknown/pytunelogix/releases
 
 To install use:
 
@@ -194,3 +195,8 @@ clxsim.main()
     
 ```
 
+
+Windows Exe:
+
+
+![Pytunelogix](https://user-images.githubusercontent.com/92536730/183046630-5fb861b3-9824-4276-b7f5-1afa51b1236c.PNG)
