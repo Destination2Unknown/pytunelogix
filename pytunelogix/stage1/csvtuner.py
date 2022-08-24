@@ -78,7 +78,7 @@ def main():
             CV_cols = [col for col in df.columns if 'CV' in col.upper()]
             PV_cols = [col for col in df.columns if 'PV' in col.upper()]
 
-            #Creat DataFrames
+            #Create DataFrames
             df['CV'] = df[CV_cols[0]]
             df['PV'] = df[PV_cols[0]]
 
@@ -90,7 +90,7 @@ def main():
 
             #Find basic parameters
             i_start=df['CV'].idxmax()
-            ambient.set(round(df['PV'].iloc[i_start:i_start+(twosecwindow*4):1].mean(axis = 0),2))
+            ambient.set(round(df['PV'].iloc[:i_start+onesecwindow].mean(axis = 0),2))
             StartPV=df['PV'].iloc[i_start]
             InitCV=df['CV'].iloc[0]
             StartCV=df['CV'].iloc[i_start]
@@ -188,8 +188,8 @@ def main():
 
             #Find Step Size
             CVStep=df['CV'].max()-df['CV'].min()
-            indexofstart=int(df['CV'].idxmax()/10) #start of step
-            ambient.set(round(df['PV'].iloc[int(indexofstart/2):indexofstart:1].mean(axis = 0),2))
+            indexofstart=int(df['CV'].idxmax()) #start of step
+            ambient.set(round(df['PV'].iloc[:indexofstart].mean(axis = 0),2))
 
             #produces a model based on the parameters
             def fopdt_func(t_fopdt, K=1, tau=1, deadtime=0):
@@ -205,8 +205,8 @@ def main():
                 return iae
 
             #Trim Timescale
-            actualPV=df['PV'].iloc[(indexofstart*10)-1::10].reset_index(drop=True)
-            actualCV=df['CV'].iloc[(indexofstart*10)-1::10].reset_index(drop=True)
+            actualPV=df['PV'].iloc[max(0,indexofstart-1)::10].reset_index(drop=True)
+            actualCV=df['CV'].iloc[max(0,indexofstart-1)::10].reset_index(drop=True)
             t=actualPV.index.values
 
             #Model Starting Point
@@ -242,16 +242,20 @@ def main():
                 
     def runthesim(processmodel,tune):
         #EntryPoint
-        minsize=2400
+        minsize=300
         maxsize=7200
 
+        #unpack values 
+        igain,itau,ideadtime=processmodel
+        ikp,iki,ikd = tune
+
         #Find the size of the range needed
-        if float(modeldt.get())+float(modeltc.get())*6 < minsize:
+        if ideadtime*2+itau*10 < minsize:
             rangesize = minsize
-        elif float(modeldt.get())+float(modeltc.get())*6 >maxsize:
+        elif ideadtime*2+itau*10 >maxsize:
             rangesize = maxsize
         else:
-            rangesize = int((ideadtime+itau)*6)
+            rangesize = int(ideadtime*2+itau*10)
 
         #setup time intervals
         t = np.arange(rangesize)
@@ -259,10 +263,6 @@ def main():
         noise= 0.2*np.random.rand(rangesize)
         noise-=0.1
         #noise=np.zeros(rangesize) #no noise
-
-        #unpack values 
-        igain,itau,ideadtime=processmodel
-        ikp,iki,ikd = tune
 
         #Setup data arrays
         SP = np.zeros(len(t)) 
