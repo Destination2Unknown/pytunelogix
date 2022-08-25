@@ -53,7 +53,19 @@ clxlogger.main()
 _________________________________________________________________________________________________________________________
 **Stage 1 - PID Tuner based on a CSV file of a Process Reaction Curve (PRC)**
 
+***Notes and Limitations:***
+
 _Assumes CV and PV data stored at 100ms intervals._
+
+_Assumes there is a sinlge step in CV._
+
+_Assumes the CV starts at 0._
+
+_Ambient is calculated as a averave of the PV prior to the step change._
+
+_Doesn't work correctly with a ramp in CV or with multiple steps._
+
+
 
 
 
