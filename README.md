@@ -7,7 +7,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/destination2unknown/pytunelogix)
 ![PyPI - License](https://img.shields.io/pypi/l/pytunelogix)
 
-Windows Exe (no install required) ->https://github.com/Destination2Unknown/pytunelogix/releases
+Windows Exe (no install required) -> https://github.com/Destination2Unknown/pytunelogix/releases
 
 To install use:
 
@@ -25,7 +25,7 @@ D-> Test tune with FOPDT Simulator for Logix PLC
 ```
 
 
-To use create a launch file:
+To use, create a launch file:
 
 ```
 examplelaunch.pyw #use pyw for no console
@@ -41,7 +41,7 @@ ________________________________________________________________________________
 
 
 
-To launch use:
+To launch, use:
 ```
 from pytunelogix.pidlogger import clxlogger
 
@@ -61,14 +61,14 @@ ________________________________________________________________________________
 >
 > - _Ambient is calculated as an average of the PV prior to the step change._
 >
-> - _Doesn't work correctly with a ramp in CV or with multiple steps. _
+> - _Doesn't work correctly with a ramp in CV or with multiple CV steps._
 >
 >
 
 
 
 
-To launch use:
+To launch, use:
 ```
 from pytunelogix.stage1 import csvtuner
 
@@ -164,7 +164,7 @@ Reverse Acting:
 
 
 
-To launch use:
+To launch, use:
 ```
 from pytunelogix.simulate import simulator
 
@@ -198,7 +198,7 @@ Reverse Acting:
 
 
 
-To launch use:
+To launch, use:
 ```
 from pytunelogix.clxpidsim import clxsim
 
@@ -206,8 +206,10 @@ clxsim.main()
     
 ```
 
+_________________________________________________________________________________________________________________________
 
-Windows Exe:
+
+**Windows Standalone Exe:**
 
 
 ![Pytunelogix](https://user-images.githubusercontent.com/92536730/183046630-5fb861b3-9824-4276-b7f5-1afa51b1236c.PNG)
