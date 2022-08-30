@@ -84,12 +84,21 @@ def main():
 
             #Direction
             if df['PV'].iloc[1] > df['PV'].iloc[-1]:
-                direction="Reverse"
+                if df['CV'].idxmin()< df['CV'].idxmax():
+                    direction="Reverse"
+                else:
+                    direction="Direct"    
             else:
-                direction="Direct"
+                if df['CV'].idxmin()< df['CV'].idxmax():
+                    direction="Direct"
+                else:
+                    direction="Reverse"
 
             #Find basic parameters
-            i_start=df['CV'].idxmax()
+            if df['CV'].idxmin()< df['CV'].idxmax():
+                i_start=df['CV'].idxmax()
+            else:
+                i_start=df['CV'].idxmin()
             ambient.set(round(df['PV'].iloc[:i_start+onesecwindow].mean(axis = 0),2))
             StartPV=df['PV'].iloc[i_start]
             InitCV=df['CV'].iloc[0]
@@ -100,7 +109,7 @@ def main():
             RangeL=round(float(ambient.get()),2)*lololimit
                     
             #Find DeadTime
-            if direction=="Reverse":
+            if (direction=="Reverse" and df['CV'].idxmin()< df['CV'].idxmax()) or (direction=="Direct" and df['CV'].idxmin()> df['CV'].idxmax()):
                 for x in range(i_start,(len(df['PV'])-window)):
                     if(df['PV'].iloc[x:x+twosecwindow:1].mean(axis = 0)<RangeL):
                         modeldt.set(round((x-i_start)*deltaT,2))
@@ -112,7 +121,7 @@ def main():
                         break
 
             #Find Gain
-            if direction=="Reverse":
+            if (direction=="Reverse" and df['CV'].idxmin()< df['CV'].idxmax()) or (direction=="Direct" and df['CV'].idxmin()> df['CV'].idxmax()):
                 j=df['PV'].idxmin()
                 min_peak=df['PV'].min()
             else:
@@ -128,7 +137,7 @@ def main():
             tc_low=tc_value*0.99
 
             #Find Time Constant
-            if direction=="Reverse": 
+            if (direction=="Reverse" and df['CV'].idxmin()< df['CV'].idxmax()) or (direction=="Direct" and df['CV'].idxmin()> df['CV'].idxmax()):
                 z=df[df['PV']<=StartPV-(peak*0.1)].first_valid_index()        
                 for x in range(z,(len(df['PV'])-window)):
                     if(df['PV'].iloc[x-twosecwindow:x+twosecwindow:1].mean(axis = 0)<tc_low):
@@ -188,7 +197,13 @@ def main():
 
             #Find Step Size
             CVStep=df['CV'].max()-df['CV'].min()
-            indexofstart=int(df['CV'].idxmax()) #start of step
+
+            #start of step
+            if df['CV'].idxmin()< df['CV'].idxmax():
+                indexofstart=df['CV'].idxmax()
+            else:
+                indexofstart=df['CV'].idxmin()
+
             ambient.set(round(df['PV'].iloc[:indexofstart].mean(axis = 0),2))
 
             #produces a model based on the parameters
@@ -227,6 +242,10 @@ def main():
 
             #Get data to plot new model 
             ymodel=CVStep*fopdt_func(t,float(modelgain.get()),float(modeltc.get()), float(modeldt.get()))+float(ambient.get())
+            
+            #Invert sign on Negative Step
+            if df['CV'].idxmin()> df['CV'].idxmax():
+                modelgain.set(round(-Gain,2))
 
             #Plot
             plt.figure()
