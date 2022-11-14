@@ -62,9 +62,18 @@ ________________________________________________________________________________
 > - _Ambient is calculated as an average of the PV prior to the step change._
 >
 > - _Doesn't work correctly with a ramp in CV or with multiple CV steps._
->
->
-
+>  
+>  
+>  
+> ***N.B.***  
+> The PID tuning values are calculated for a PV with a standard range span of 100 in engineering units (e.g. 0-100 deg C or 50-150 deg F).              
+> If the range of the PV has a different span the PID tuning values need to be rescaled:
+> 
+>       Example 1: PV range of 200-400 deg C -> PID Gains x2
+> 
+>       Example 2: PV range of 75-100 deg C -> PID Gains x0.25
+>  
+>  
 
 
 
@@ -103,7 +112,7 @@ https://user-images.githubusercontent.com/92536730/175918442-017d18a0-0bac-434d-
 
 ```
 
-WIP
+Premium Feature - https://github.com/sponsors/Destination2Unknown
 
 ```
 
@@ -121,7 +130,7 @@ https://user-images.githubusercontent.com/92536730/175920990-3fc2cb66-9d08-4c67-
 
 ```
 
-WIP
+Premium Feature - https://github.com/sponsors/Destination2Unknown
 
 ```
 
@@ -140,7 +149,7 @@ https://user-images.githubusercontent.com/92536730/175921177-86389b8f-2d3c-4dc7-
 
 ```
 
-WIP
+Premium Feature - https://github.com/sponsors/Destination2Unknown
 
 ```
 
