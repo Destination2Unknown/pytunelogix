@@ -67,7 +67,7 @@ ________________________________________________________________________________
 >  
 > ***N.B.***  
 > The PID tuning values are calculated for a PV with a standard range span of 100 in engineering units (e.g. 0-100 deg C or 50-150 deg F).              
-> If the range of the PV has a different span the PID tuning values need to be rescaled:
+> If the range of the PV has a different span the PID tuning values **may** need to be rescaled:
 > 
 >       Example 1: PV range of 200-400 deg C -> PID Gains x2
 > 
