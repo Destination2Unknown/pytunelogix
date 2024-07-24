@@ -1,4 +1,11 @@
-# pytunelogix
+# Note: Project Archived
+For a new and improved version, see [https://github.com/PIDTuningIreland/pyPIDTune](https://github.com/PIDTuningIreland/pyPIDTune)
+
+
+---
+
+
+### pytunelogix
 **Python PID Tuner for ControlLogix**
 
 ![PyPI](https://img.shields.io/pypi/v/pytunelogix?label=pypi%20package)
