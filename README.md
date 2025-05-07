@@ -116,13 +116,6 @@ https://user-images.githubusercontent.com/92536730/175918442-017d18a0-0bac-434d-
 
 
 
-```
-
-Premium Feature - https://github.com/sponsors/Destination2Unknown
-
-```
-
-
 
 _________________________________________________________________________________________________________________________
 **Stage 3 - Closed loop tune**
@@ -131,14 +124,6 @@ ________________________________________________________________________________
 
 https://user-images.githubusercontent.com/92536730/175920990-3fc2cb66-9d08-4c67-aff7-ff410345f9a5.mp4
 
-
-
-
-```
-
-Premium Feature - https://github.com/sponsors/Destination2Unknown
-
-```
 
 
 
