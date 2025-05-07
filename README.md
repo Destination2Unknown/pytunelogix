@@ -1,5 +1,4 @@
 # Note: Project Archived
-For a new and improved version, see [https://github.com/PIDTuningIreland/pyPIDTune](https://github.com/PIDTuningIreland/pyPIDTune)
 
 
 ---
