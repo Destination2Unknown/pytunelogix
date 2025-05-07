@@ -152,13 +152,6 @@ https://user-images.githubusercontent.com/92536730/175921177-86389b8f-2d3c-4dc7-
 
 
 
-
-```
-
-Premium Feature - https://github.com/sponsors/Destination2Unknown
-
-```
-
 _________________________________________________________________________________________________________________________
 **PID Simulator**
 
